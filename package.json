@@ -1,0 +1,21 @@
+{
+  "name": "app-timer-api",
+  "version": "1.0.0",
+  "description": "This is the REST api which is responsible to provide data to app-timer app.",
+  "main": "index.js",
+  "author": "Gustavo Isensee",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.4"
+  }
+}
