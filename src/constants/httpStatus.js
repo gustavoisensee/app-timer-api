@@ -9,7 +9,8 @@ const httpStatus = {
     created: HttpObject(201, 'The resource has been created.')
   },
   CLIENT_ERROR: {
-    conflict: HttpObject(409, 'The request could not be completed due to a conflict')
+    badRequest: HttpObject(400, 'The request has no valid data.'),
+    conflict: HttpObject(409, 'The request could not be completed due to a conflict.')
   },
   SERVER_ERROR: {
     internalServerError: HttpObject(500, 'Something went wrong.')
