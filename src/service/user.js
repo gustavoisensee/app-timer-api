@@ -6,7 +6,7 @@ const {
   CLIENT_ERROR
 } = require('../constants/httpStatus');
 
-const getUsers = ({}, res) => {
+const getUsers = (req, res) => {
   userModel
     .find()
     .then(users =>
@@ -14,7 +14,7 @@ const getUsers = ({}, res) => {
     .catch(e =>
       catchHandling(e, res)
     );
-}
+};
 
 const createUser = (req, res) => {
   const { name, email, password } = req.body;
@@ -31,7 +31,7 @@ const createUser = (req, res) => {
         .catch(e => catchHandling(e, res));
     })
     .catch(e => catchHandling(e, res));
-}
+};
 
 module.exports = {
   getUsers,
