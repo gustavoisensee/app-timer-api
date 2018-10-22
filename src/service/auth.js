@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const catchHandling = require('../helpers/catchHandling');
 const userModel = require('../database/models/user');
 const {
   SUCCESS,

@@ -3,7 +3,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, err => {
   if (err) {
-    console.log(`Error: something went wrong: ${e}`);
+    console.log(`Error: something went wrong: ${err}`);
     throw err;
   } else {
     console.log(`Server running on port: ${PORT}`);

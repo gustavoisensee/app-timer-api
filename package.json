@@ -6,7 +6,8 @@
   "author": "Gustavo Isensee",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "lint:js": "eslint index.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -16,6 +17,7 @@
     "mongoose": "^5.3.4"
   },
   "devDependencies": {
+    "eslint": "^5.7.0",
     "nodemon": "^1.18.4"
   }
 }

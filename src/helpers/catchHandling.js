@@ -4,7 +4,7 @@ const {
 
 const catchNotify = (error, res) => {
   res
-    .status(httpObject.code)
+    .status(SERVER_ERROR.internalServerError.code)
     .send({
       ...SERVER_ERROR.internalServerError,
       error
