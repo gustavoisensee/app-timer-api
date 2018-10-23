@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-require('./auth')(router);
-require('./user')(router);
+// Routes without authorisation
+require('./account')(router);
 
-// Add all routes
+// Set up a verify bearer token
+require('./verifyValidToken')(router);
+
+// Routes with authorisation
+require('./user')(router);
 
 module.exports = router;

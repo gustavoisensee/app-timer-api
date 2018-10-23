@@ -5,9 +5,9 @@ const {
   SUCCESS,
   CLIENT_ERROR
 } = require('../constants/httpStatus');
-const config = require('./../config');
+const config = require('../config');
 
-const auth = (req, res) => {
+const login = (req, res) => {
   const { email, password } = req.body;
   userModel
     .findOne({ email, password })
@@ -25,4 +25,24 @@ const auth = (req, res) => {
     .catch(e => catchHandling(e, res));
 };
 
-module.exports = auth;
+const create = (req, res) => {
+  const { name, email, password } = req.body;
+  userModel
+    .find({ email, password })
+    .then(result => {
+      if (result.length > 0) return res
+        .status(CLIENT_ERROR.conflict.code)
+        .send(CLIENT_ERROR.conflict);
+
+      userModel
+        .create({ name, email, password})
+        .then(user => res.status(SUCCESS.ok.code).send(user))
+        .catch(e => catchHandling(e, res));
+    })
+    .catch(e => catchHandling(e, res));
+};
+
+module.exports = {
+  login,
+  create
+};

@@ -10,6 +10,7 @@ const httpStatus = {
   },
   CLIENT_ERROR: {
     badRequest: HttpObject(400, 'The request has no valid data.'),
+    unauthorized: HttpObject(401, 'The token is invalid or expired.'),
     conflict: HttpObject(409, 'The request could not be completed due to a conflict.')
   },
   SERVER_ERROR: {
