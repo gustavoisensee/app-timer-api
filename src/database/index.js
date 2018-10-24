@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
+const { db } = require('../config');
 const { connection } = mongoose;
 
 mongoose.Promise = Promise;
 mongoose.connect(
-  'mongodb+srv://admin:admin123@app-timer-api-aaipk.mongodb.net',
-  { dbName: 'app-timer-db', useNewUrlParser: true }
+  db.path,
+  {
+    dbName: db.name, useNewUrlParser: true
+  }
 );
 
 connection.on('error', (err) => console.log('connection error: ', err));

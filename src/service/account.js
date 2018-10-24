@@ -5,7 +5,7 @@ const {
   SUCCESS,
   CLIENT_ERROR
 } = require('../constants/httpStatus');
-const config = require('../config');
+const { jwt: jwtConfig } = require('../config');
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -17,8 +17,8 @@ const login = (req, res) => {
       
       const token = jwt.sign(
         { email, password },
-        config.secret,
-        { expiresIn: config.expiresToken }
+        jwtConfig.secret,
+        { expiresIn: jwtConfig.expiresToken }
       );
       res.status(SUCCESS.ok.code).json({ user, token });
     })
