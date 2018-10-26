@@ -1,22 +1,26 @@
+const jwt = require('jsonwebtoken');
 const nodeMailer = require('nodemailer');
-const { email: configEmail } = require('../config');
+const {
+  email: emailConfig,
+  jwt: jwtConfig
+} = require('../config');
 const userModel = require('../database/models/user');
 const catchHandling = require('../helpers/catchHandling');
 
 const send = (res, options) => {
   try {
     const transporter = nodeMailer.createTransport({
-      host: configEmail.host,
-      port: configEmail.port,
-      secure: configEmail.secure,  //true for 465 port, false for other ports
+      host: emailConfig.host,
+      port: emailConfig.port,
+      secure: emailConfig.secure,  //true for 465 port, false for other ports
       auth: {
-        user: configEmail.auth.user,
-        pass: configEmail.auth.password
+        user: emailConfig.auth.user,
+        pass: emailConfig.auth.password
       }
     });
 
     const mailOptions = {
-      from: configEmail.auth.user,
+      from: emailConfig.auth.user,
       ...options
     };
 
@@ -33,7 +37,7 @@ const send = (res, options) => {
   }
 };
 
-const getRequestForgetPasswordOptions = (email) => ({
+const getRequestForgetPasswordOptions = (email, token) => ({
   to: email,
   subject: 'App timer - Reset password',
   // text: 'Hello world?', // plain text body
@@ -42,7 +46,9 @@ const getRequestForgetPasswordOptions = (email) => ({
       <b>
         This is the link to reset your password
       </b>
-      <a href="http://localhost:3000/">Reset your password</a>
+      <br />
+      <a href="${emailConfig.pathResetPassword}?token=${token}"
+        target="_blank">Reset your password</a>
     </div>
   `
 });
@@ -53,7 +59,13 @@ const sendRequestForgetPassword = (req, res) => {
     userModel
       .findOne({ email })
       .then(() => {
-        const options = getRequestForgetPasswordOptions(email);
+        const token = jwt.sign(
+          { email },
+          jwtConfig.secret,
+          { expiresIn: jwtConfig.expiresToken }
+        );
+
+        const options = getRequestForgetPasswordOptions(email, token);
         send(res, options);
       })
       .catch(e =>

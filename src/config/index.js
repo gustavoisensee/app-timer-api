@@ -18,7 +18,8 @@ const config = {
     auth: {
       user: process.env.EMAIL_USER,
       password: process.env.EMAIL_PASSWORD
-    }
+    },
+    pathResetPassword: process.env.EMAIL_PATH_RESET_PASSWORD
   }
 };
 
