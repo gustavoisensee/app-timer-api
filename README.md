@@ -11,6 +11,11 @@ You must have in the root folder the .env file with the following keys
 * DB_NAME='database-name'
 * JWT_EXPIRES_TOKEN='2h'
 * JWT_SECRET='choose-secret'
+* EMAIL_HOST='smtp.mail.com'
+* EMAIL_PORT=465
+* EMAIL_SECURE=true
+* EMAIL_USER='user@mail.com'
+* EMAIL_PASSWORD='password'
 
 ## Run the project
 
