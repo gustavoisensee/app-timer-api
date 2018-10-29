@@ -6,19 +6,21 @@ const {
 } = require('../config');
 const userModel = require('../database/models/user');
 const catchHandling = require('../helpers/catchHandling');
+const { CLIENT_ERROR, SUCCESS } = require('../constants/httpStatus');
+
+const createTransport = () => nodeMailer.createTransport({
+  host: emailConfig.host,
+  port: emailConfig.port,
+  secure: emailConfig.secure,  //true for 465 port, false for other ports
+  auth: {
+    user: emailConfig.auth.user,
+    pass: emailConfig.auth.password
+  }
+});
 
 const send = (res, options) => {
   try {
-    const transporter = nodeMailer.createTransport({
-      host: emailConfig.host,
-      port: emailConfig.port,
-      secure: emailConfig.secure,  //true for 465 port, false for other ports
-      auth: {
-        user: emailConfig.auth.user,
-        pass: emailConfig.auth.password
-      }
-    });
-
+    const transporter = createTransport();
     const mailOptions = {
       from: emailConfig.auth.user,
       ...options
@@ -26,21 +28,25 @@ const send = (res, options) => {
 
     transporter.sendMail(mailOptions, (error) => {
       if (error) {
-        res.status(400).send({success: false, error});
+        res.status(CLIENT_ERROR.badRequest.code)
+          .send({success: false, error});
       } else {
-        res.status(200).send({success: true});
+        res.status(SUCCESS.ok.code)
+          .send({success: true});
       }
     });
 
   } catch (error) {
-    res.status(400).send({success: false, error}); 
+    res.status(CLIENT_ERROR.badRequest.code)
+      .send({success: false, error}); 
   }
 };
 
 const getRequestForgetPasswordOptions = (email, token) => ({
   to: email,
+  // TODO: It needs translation #13
   subject: 'App timer - Reset password',
-  // text: 'Hello world?', // plain text body
+  // TODO: It needs Html creation #14
   html: `
     <div>
       <b>
@@ -55,24 +61,30 @@ const getRequestForgetPasswordOptions = (email, token) => ({
 
 const sendRequestForgetPassword = (req, res) => {
   const { email } = req.body;
+  // TODO: It needs translation #13
+  const emailNotFoundMessage = 'Email has been not found.';
   if (email) {
     userModel
       .findOne({ email })
-      .then(() => {
-        const token = jwt.sign(
-          { email },
-          jwtConfig.secret,
-          { expiresIn: jwtConfig.expiresToken }
-        );
+      .then((user) => {
+        if (user) {
+          const token = jwt.sign(
+            { email },
+            jwtConfig.secret,
+            { expiresIn: jwtConfig.expiresToken }
+          );
+          const options = getRequestForgetPasswordOptions(email, token);
 
-        const options = getRequestForgetPasswordOptions(email, token);
-        send(res, options);
+          send(res, options);
+        } else {
+          res.status(CLIENT_ERROR.badRequest.code)
+            .send({ success: false, error: emailNotFoundMessage });
+        }
       })
-      .catch(e =>
-        catchHandling(e, res)
-      );
+      .catch(e => catchHandling(e, res));
   } else {
-    res.status(400).send({ success: false, error: 'Email is required' });
+    res.status(CLIENT_ERROR.badRequest.code)
+      .send({ success: false, error: emailNotFoundMessage });
   }
 };
 
