@@ -1,11 +1,7 @@
-const jwt = require('jsonwebtoken');
 const nodeMailer = require('nodemailer');
 const {
   email: emailConfig,
-  jwt: jwtConfig
 } = require('../config');
-const userModel = require('../database/models/user');
-const catchHandling = require('../helpers/catchHandling');
 const { CLIENT_ERROR, SUCCESS } = require('../constants/httpStatus');
 
 const createTransport = () => nodeMailer.createTransport({
@@ -18,7 +14,7 @@ const createTransport = () => nodeMailer.createTransport({
   }
 });
 
-const send = (res, options) => {
+const sendEmail = (res, options) => {
   try {
     const transporter = createTransport();
     const mailOptions = {
@@ -42,7 +38,7 @@ const send = (res, options) => {
   }
 };
 
-const getRequestForgetPasswordOptions = (email, token) => ({
+const getRequestResetPasswordOptions = (email, token) => ({
   to: email,
   // TODO: It needs translation #13
   subject: 'App timer - Reset password',
@@ -59,33 +55,7 @@ const getRequestForgetPasswordOptions = (email, token) => ({
   `
 });
 
-const sendRequestForgetPassword = (req, res) => {
-  const { email } = req.body;
-  // TODO: It needs translation #13
-  const emailNotFoundMessage = 'Email has been not found.';
-  if (email) {
-    userModel
-      .findOne({ email })
-      .then((user) => {
-        if (user) {
-          const token = jwt.sign(
-            { email },
-            jwtConfig.secret,
-            { expiresIn: jwtConfig.expiresToken }
-          );
-          const options = getRequestForgetPasswordOptions(email, token);
-
-          send(res, options);
-        } else {
-          res.status(CLIENT_ERROR.badRequest.code)
-            .send({ success: false, error: emailNotFoundMessage });
-        }
-      })
-      .catch(e => catchHandling(e, res));
-  } else {
-    res.status(CLIENT_ERROR.badRequest.code)
-      .send({ success: false, error: emailNotFoundMessage });
-  }
+module.exports = {
+  sendEmail,
+  getRequestResetPasswordOptions
 };
-
-module.exports = { sendRequestForgetPassword };
