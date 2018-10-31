@@ -7,34 +7,50 @@ const {
 } = require('../constants/httpStatus');
 const { jwt: jwtConfig } = require('../config');
 const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
+const { encrypt, compare } = require('../helpers/encryption');
 
 const login = (req, res) => {
   const { email, password } = req.body;
-  userModel
-    .findOne({ email, password })
-    .then(user => {
-      if (!user) return res.status(CLIENT_ERROR.badRequest.code)
-        .send(CLIENT_ERROR.badRequest);
-      
-      const token = jwt.sign(
-        { email, password },
-        jwtConfig.secret,
-        { expiresIn: jwtConfig.expiresToken }
-      );
-      res.status(SUCCESS.ok.code).json({ user, token });
-    })
-    .catch(e => catchHandling(e, res));
+  if (email && password) {
+    userModel
+      .findOne({ email })
+      .then(user => {
+        if (!user) return res.status(CLIENT_ERROR.badRequest.code)
+          .json(CLIENT_ERROR.badRequest);
+        
+        const isValid = compare(password, user.password);
+        if (!isValid) return res.status(CLIENT_ERROR.badRequest.code)
+          .json(CLIENT_ERROR.badRequest);
+
+        const _user = {
+          id: user.id,
+          name: user.name,
+          email: user.email
+        };
+        const token = jwt.sign(
+          _user,
+          jwtConfig.secret,
+          { expiresIn: jwtConfig.expiresToken }
+        );
+        res.status(SUCCESS.ok.code).json({ user: _user, token });
+      })
+      .catch(e => catchHandling(e, res));
+  } else {
+    res.status(CLIENT_ERROR.badRequest.code)
+      .send(CLIENT_ERROR.badRequest);
+  }
 };
 
 const create = (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password: _password } = req.body;
   userModel
-    .find({ email, password })
+    .find({ email })
     .then(result => {
       if (result.length > 0) return res
         .status(CLIENT_ERROR.conflict.code)
         .send(CLIENT_ERROR.conflict);
-
+      
+      const password = encrypt(_password);
       userModel
         .create({ name, email, password})
         .then(user => res.status(SUCCESS.ok.code).send(user))
@@ -73,7 +89,7 @@ const requestResetPassword = (req, res) => {
 };
 
 const resetPassword = (req, res) => {
-  const { password, token } = req.body;
+  const { password: _password, token } = req.body;
   // TODO: It needs translation #13
   const messages = {
     INVALID_PASSWORD: 'Password has not been sent.',
@@ -92,7 +108,6 @@ const resetPassword = (req, res) => {
       .status(CLIENT_ERROR.unauthorized.code)
       .send(CLIENT_ERROR.unauthorized);
     
-    const _password = `${password}`;
     if (!_password) return res
       .status(CLIENT_ERROR.badRequest.code)
       .send(messages.INVALID_PASSWORD);
@@ -107,6 +122,7 @@ const resetPassword = (req, res) => {
       .status(CLIENT_ERROR.badRequest.code)
       .send(messages.INVALID_TOKEN);
 
+    const password = encrypt(_password);
     userModel
       .findOneAndUpdate({ _id: userId }, { password })
       .then(user => {

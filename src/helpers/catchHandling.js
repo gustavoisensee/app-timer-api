@@ -5,7 +5,7 @@ const {
 const catchNotify = (error, res) => {
   res
     .status(SERVER_ERROR.internalServerError.code)
-    .send({
+    .json({
       ...SERVER_ERROR.internalServerError,
       error
     });
