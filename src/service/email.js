@@ -69,7 +69,7 @@ const sendRequestForgetPassword = (req, res) => {
       .then((user) => {
         if (user) {
           const token = jwt.sign(
-            { email },
+            { email, userId: user._id },
             jwtConfig.secret,
             { expiresIn: jwtConfig.expiresToken }
           );

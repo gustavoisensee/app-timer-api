@@ -42,7 +42,40 @@ const create = (req, res) => {
     .catch(e => catchHandling(e, res));
 };
 
+const resetPassword = (req, res) => {
+  const { password, token } = req.body;
+  // TODO: It needs translation #13
+  
+  if (!token) return res
+    .status(CLIENT_ERROR.unauthorized.code)
+    .send(CLIENT_ERROR.unauthorized);
+
+  jwt.verify(token, jwtConfig.secret, (err, decoded) => {
+    if (err) return res
+      .status(CLIENT_ERROR.unauthorized.code)
+      .send(CLIENT_ERROR.unauthorized);
+    
+    const passwordTrim = `${password}`;
+    if (!passwordTrim) return res.status(400).send('Password has not been sent.');
+    
+    const hasSpaces = passwordTrim.indexOf(' ') >= 0;
+    if (!hasSpaces) return res.status(400).send('Password must not have spaces.');
+
+    const { userId } = decoded;
+    if (!userId) return res.status(400).send('Token has invalid data.');
+
+    userModel
+      .findOneAndUpdate({ _id: userId }, { password })
+      .then(user => {
+        if (user) return res.status(200).send('Password has been changed successful.');
+        res.status(400).send('Something went wrong, try again.');
+      })
+      .catch(e => catchHandling(e, res));
+  });
+};
+
 module.exports = {
   login,
-  create
+  create,
+  resetPassword
 };
