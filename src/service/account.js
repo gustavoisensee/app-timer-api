@@ -6,6 +6,7 @@ const {
   CLIENT_ERROR
 } = require('../constants/httpStatus');
 const { jwt: jwtConfig } = require('../config');
+const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -40,6 +41,35 @@ const create = (req, res) => {
         .catch(e => catchHandling(e, res));
     })
     .catch(e => catchHandling(e, res));
+};
+
+const requestResetPassword = (req, res) => {
+  const { email } = req.body;
+  // TODO: It needs translation #13
+  const emailNotFoundMessage = 'Email has been not found.';
+  if (email) {
+    userModel
+      .findOne({ email })
+      .then((user) => {
+        if (user) {
+          const token = jwt.sign(
+            { email, userId: user._id },
+            jwtConfig.secret,
+            { expiresIn: jwtConfig.expiresToken }
+          );
+          const options = getRequestResetPasswordOptions(email, token);
+
+          sendEmail(res, options);
+        } else {
+          res.status(CLIENT_ERROR.badRequest.code)
+            .send({ success: false, error: emailNotFoundMessage });
+        }
+      })
+      .catch(e => catchHandling(e, res));
+  } else {
+    res.status(CLIENT_ERROR.badRequest.code)
+      .send({ success: false, error: emailNotFoundMessage });
+  }
 };
 
 const resetPassword = (req, res) => {
@@ -77,5 +107,6 @@ const resetPassword = (req, res) => {
 module.exports = {
   login,
   create,
+  requestResetPassword,
   resetPassword
 };
