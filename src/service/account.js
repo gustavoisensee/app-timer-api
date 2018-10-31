@@ -75,6 +75,13 @@ const requestResetPassword = (req, res) => {
 const resetPassword = (req, res) => {
   const { password, token } = req.body;
   // TODO: It needs translation #13
+  const messages = {
+    INVALID_PASSWORD: 'Password has not been sent.',
+    PASSWORD_HAS_SPACES: 'Password must not have spaces.',
+    INVALID_TOKEN: 'Token has invalid data.',
+    PASSWORD_CHANGED: 'Password has been changed successful.',
+    SOMETHING_WRONG: 'Something went wrong, try again.'
+  };
   
   if (!token) return res
     .status(CLIENT_ERROR.unauthorized.code)
@@ -86,19 +93,30 @@ const resetPassword = (req, res) => {
       .send(CLIENT_ERROR.unauthorized);
     
     const _password = `${password}`;
-    if (!_password) return res.status(400).send('Password has not been sent.');
+    if (!_password) return res
+      .status(CLIENT_ERROR.badRequest.code)
+      .send(messages.INVALID_PASSWORD);
     
     const hasSpaces = _password.indexOf(' ') >= 0;
-    if (hasSpaces) return res.status(400).send('Password must not have spaces.');
+    if (hasSpaces) return res
+      .status(CLIENT_ERROR.badRequest.code)
+      .send(messages.PASSWORD_HAS_SPACES);
 
     const { userId } = decoded;
-    if (!userId) return res.status(400).send('Token has invalid data.');
+    if (!userId) return res
+      .status(CLIENT_ERROR.badRequest.code)
+      .send(messages.INVALID_TOKEN);
 
     userModel
       .findOneAndUpdate({ _id: userId }, { password })
       .then(user => {
-        if (user) return res.status(200).send('Password has been changed successful.');
-        res.status(400).send('Something went wrong, try again.');
+        if (user) return res
+          .status(SUCCESS.ok.code)
+          .send(messages.PASSWORD_CHANGED);
+
+        res
+          .status(CLIENT_ERROR.badRequest.code)
+          .send(messages.SOMETHING_WRONG);
       })
       .catch(e => catchHandling(e, res));
   });
