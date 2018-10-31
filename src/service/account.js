@@ -55,11 +55,11 @@ const resetPassword = (req, res) => {
       .status(CLIENT_ERROR.unauthorized.code)
       .send(CLIENT_ERROR.unauthorized);
     
-    const passwordTrim = `${password}`;
-    if (!passwordTrim) return res.status(400).send('Password has not been sent.');
+    const _password = `${password}`;
+    if (!_password) return res.status(400).send('Password has not been sent.');
     
-    const hasSpaces = passwordTrim.indexOf(' ') >= 0;
-    if (!hasSpaces) return res.status(400).send('Password must not have spaces.');
+    const hasSpaces = _password.indexOf(' ') >= 0;
+    if (hasSpaces) return res.status(400).send('Password must not have spaces.');
 
     const { userId } = decoded;
     if (!userId) return res.status(400).send('Token has invalid data.');
