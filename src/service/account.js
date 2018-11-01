@@ -8,6 +8,7 @@ const {
 const { jwt: jwtConfig } = require('../config');
 const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
 const { encrypt, compare } = require('../helpers/encryption');
+const profile = require('../constants/profile');
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -37,7 +38,7 @@ const login = (req, res) => {
       .catch(e => catchHandling(e, res));
   } else {
     res.status(CLIENT_ERROR.badRequest.code)
-      .send(CLIENT_ERROR.badRequest);
+      .json(CLIENT_ERROR.badRequest);
   }
 };
 
@@ -48,12 +49,23 @@ const create = (req, res) => {
     .then(result => {
       if (result.length > 0) return res
         .status(CLIENT_ERROR.conflict.code)
-        .send(CLIENT_ERROR.conflict);
+        .json(CLIENT_ERROR.conflict);
       
       const password = encrypt(_password);
       userModel
-        .create({ name, email, password})
-        .then(user => res.status(SUCCESS.ok.code).send(user))
+        .create({
+          name,
+          email,
+          password,
+          profile: profile.USER
+        })
+        .then((result) => {
+          // remove encrypted password
+          const _user = { ...result };
+          // eslint-disable-next-line
+          const { password, __v, ...user } = _user._doc;
+          res.status(SUCCESS.ok.code).json(user);
+        })
         .catch(e => catchHandling(e, res));
     })
     .catch(e => catchHandling(e, res));
@@ -78,13 +90,13 @@ const requestResetPassword = (req, res) => {
           sendEmail(res, options);
         } else {
           res.status(CLIENT_ERROR.badRequest.code)
-            .send({ success: false, error: emailNotFoundMessage });
+            .json({ success: false, error: emailNotFoundMessage });
         }
       })
       .catch(e => catchHandling(e, res));
   } else {
     res.status(CLIENT_ERROR.badRequest.code)
-      .send({ success: false, error: emailNotFoundMessage });
+      .json({ success: false, error: emailNotFoundMessage });
   }
 };
 
@@ -92,35 +104,35 @@ const resetPassword = (req, res) => {
   const { password: _password, token } = req.body;
   // TODO: It needs translation #13
   const messages = {
-    INVALID_PASSWORD: 'Password has not been sent.',
-    PASSWORD_HAS_SPACES: 'Password must not have spaces.',
-    INVALID_TOKEN: 'Token has invalid data.',
-    PASSWORD_CHANGED: 'Password has been changed successful.',
-    SOMETHING_WRONG: 'Something went wrong, try again.'
+    INVALID_PASSWORD: { message: 'Password has not been sent.' },
+    PASSWORD_HAS_SPACES: { message: 'Password must not have spaces.' },
+    INVALID_TOKEN: { message: 'Token has invalid data.' },
+    PASSWORD_CHANGED: { message: 'Password has been changed successful.' },
+    SOMETHING_WRONG: { message: 'Something went wrong, try again.' }
   };
   
   if (!token) return res
     .status(CLIENT_ERROR.unauthorized.code)
-    .send(CLIENT_ERROR.unauthorized);
+    .json(CLIENT_ERROR.unauthorized);
 
   jwt.verify(token, jwtConfig.secret, (err, decoded) => {
     if (err) return res
       .status(CLIENT_ERROR.unauthorized.code)
-      .send(CLIENT_ERROR.unauthorized);
+      .json(CLIENT_ERROR.unauthorized);
     
     if (!_password) return res
       .status(CLIENT_ERROR.badRequest.code)
-      .send(messages.INVALID_PASSWORD);
+      .json(messages.INVALID_PASSWORD);
     
     const hasSpaces = _password.indexOf(' ') >= 0;
     if (hasSpaces) return res
       .status(CLIENT_ERROR.badRequest.code)
-      .send(messages.PASSWORD_HAS_SPACES);
+      .json(messages.PASSWORD_HAS_SPACES);
 
     const { userId } = decoded;
     if (!userId) return res
       .status(CLIENT_ERROR.badRequest.code)
-      .send(messages.INVALID_TOKEN);
+      .json(messages.INVALID_TOKEN);
 
     const password = encrypt(_password);
     userModel
@@ -128,11 +140,11 @@ const resetPassword = (req, res) => {
       .then(user => {
         if (user) return res
           .status(SUCCESS.ok.code)
-          .send(messages.PASSWORD_CHANGED);
+          .json(messages.PASSWORD_CHANGED);
 
         res
           .status(CLIENT_ERROR.badRequest.code)
-          .send(messages.SOMETHING_WRONG);
+          .json(messages.SOMETHING_WRONG);
       })
       .catch(e => catchHandling(e, res));
   });
