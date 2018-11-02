@@ -16,7 +16,12 @@ You must have in the root folder the .env file with the following keys
 * EMAIL_SECURE=true
 * EMAIL_USER='user@mail.com'
 * EMAIL_PASSWORD='password'
+* EMAIL_PATH_RESET_PASSWORD='http://localhot:3001/account/reset-password'
 
 ## Run the project
 
 * yarn start
+
+## Run lint
+
+* yarn lint:js
