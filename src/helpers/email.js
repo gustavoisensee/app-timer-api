@@ -25,16 +25,16 @@ const sendEmail = (res, options) => {
     transporter.sendMail(mailOptions, (error) => {
       if (error) {
         res.status(CLIENT_ERROR.badRequest.code)
-          .send({success: false, error});
+          .json({success: false, error});
       } else {
         res.status(SUCCESS.ok.code)
-          .send({success: true});
+          .json({success: true});
       }
     });
 
   } catch (error) {
     res.status(CLIENT_ERROR.badRequest.code)
-      .send({success: false, error}); 
+      .json({success: false, error}); 
   }
 };
 
