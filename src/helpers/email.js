@@ -42,15 +42,17 @@ const getRequestResetPasswordOptions = (email, token) => ({
   to: email,
   // TODO: It needs translation #13
   subject: 'App timer - Reset password',
-  // TODO: It needs Html creation #14
   html: `
-    <div>
-      <b>
-        This is the link to reset your password
-      </b>
-      <br />
-      <a href="${emailConfig.pathResetPassword}?token=${token}"
-        target="_blank">Reset your password</a>
+    <div style="font-family: Arial; font-size: 12px; width: 100%;">
+      <h3>App timer - reset password</h3><br />
+      <p>We might have lost your App timer password. Sorry for that!</p>
+      <p>No worry! You might use the following link to reset your password:</p>
+      <a href="${emailConfig.pathResetPassword}?token=${token}" target="_blank">Reset your password</a><br />
+      <p>If you don’t use this link within 24 hours, it will expire. To get a new password reset your password again.</p><br />
+      <p style="display: grid;">
+        <span>Thanks,</span>
+        <span>App timer!</span>
+      </p>
     </div>
   `
 });
