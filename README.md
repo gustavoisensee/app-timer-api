@@ -26,4 +26,6 @@ You must have in the root folder the .env file with the following keys
 
 * yarn lint:js
 
+## Status
+
 [![Build Status](https://travis-ci.com/gustavoisensee/app-timer-api.svg?branch=master)](https://travis-ci.com/gustavoisensee/app-timer-api)
