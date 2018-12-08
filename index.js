@@ -1,6 +1,5 @@
 require('dotenv').config();
 const { app: appConfig } = require('./src/config');
-console.log('---- Port: ', appConfig.port);
 const app = require('./src/app.js');
 
 app.listen(appConfig.port, err => {
