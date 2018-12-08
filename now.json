@@ -1,5 +1,5 @@
 {
-  "start": {
+  "build": {
     "env": {
       "PORT": "3001",
       "DB_PATH": "mongodb+srv://admin:admin123_@app-timer-api-aaipk.mongodb.net",
