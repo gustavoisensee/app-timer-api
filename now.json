@@ -4,6 +4,13 @@
     "DB_PATH": "mongodb+srv://admin:admin123_@app-timer-api-aaipk.mongodb.net",
     "DB_NAME": "app-timer-db",
     "JWT_EXPIRES_TOKEN": "2h",
-    "JWT_SECRET": "app-timer-api-v1"
+    "JWT_SECRET": "app-timer-api-v1",
+    
+    "EMAIL_HOST": "smtp.gmail.com",
+    "EMAIL_PORT": 465,
+    "EMAIL_SECURE": true,
+    "EMAIL_USER": "apptimerapi@gmail.com",
+    "EMAIL_PASSWORD": "apptimer@I_',
+    "EMAIL_PATH_RESET_PASSWORD": "http://localhot:3001/account/reset-password"
   }
 }
