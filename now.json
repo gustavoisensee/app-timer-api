@@ -10,7 +10,7 @@
     "EMAIL_PORT": 465,
     "EMAIL_SECURE": true,
     "EMAIL_USER": "apptimerapi@gmail.com",
-    "EMAIL_PASSWORD": "apptimer@I_',
+    "EMAIL_PASSWORD": "apptimer@I_",
     "EMAIL_PATH_RESET_PASSWORD": "http://localhot:3001/account/reset-password"
   }
 }
