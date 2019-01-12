@@ -7,7 +7,7 @@
     "JWT_SECRET": "app-timer-api-v1",
     
     "EMAIL_HOST": "smtp.gmail.com",
-    "EMAIL_PORT": 465,
+    "EMAIL_PORT": "465",
     "EMAIL_SECURE": true,
     "EMAIL_USER": "apptimerapi@gmail.com",
     "EMAIL_PASSWORD": "apptimer@I_",
