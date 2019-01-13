@@ -1,9 +1,6 @@
 {
   "version": 2,
-  "name": "nodejs",
-  "builds": [
-    { "src": "*.js", "use": "@now/node" }
-  ],
+  "name": "app-timer-api",
   "env": {
     "PORT": "3001",
     "DB_PATH": "mongodb+srv://admin:admin123_@app-timer-api-aaipk.mongodb.net",
