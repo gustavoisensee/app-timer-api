@@ -5,7 +5,6 @@
     "DB_NAME": "app-timer-db",
     "JWT_EXPIRES_TOKEN": "2h",
     "JWT_SECRET": "app-timer-api-v1",
-    
     "EMAIL_HOST": "smtp.gmail.com",
     "EMAIL_PORT": "465",
     "EMAIL_SECURE": "true",
