@@ -1,6 +1,6 @@
-# App timer api
+# My finances api
 
-This is the RESTful api in nodejs with mongodb which provides information to app-timer.
+This is the RESTful api in nodejs with mongodb which provides information to my-finances app.
 
 ## Pre requirements to run the project
 
@@ -28,4 +28,4 @@ You must have in the root folder the .env file with the following keys
 
 ## Status
 
-[![Build Status](https://travis-ci.com/gustavoisensee/app-timer-api.svg?branch=master)](https://travis-ci.com/gustavoisensee/app-timer-api)
+[![Build Status](https://travis-ci.com/gustavoisensee/my-finances-api.svg?branch=master)](https://travis-ci.com/gustavoisensee/my-finances-api)
