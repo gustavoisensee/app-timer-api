@@ -1,9 +1,13 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:jest/recommended"
+  ],
   "globals": {
     "require": true,
     "process": true,
@@ -12,6 +16,7 @@
   "parserOptions": {
     "ecmaVersion": 2018
   },
+  "plugins": ["jest"],
   "rules": {
     "indent": [
       "error",
