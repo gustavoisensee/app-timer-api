@@ -14,7 +14,7 @@ const excludedFields = {
 const getUserById = (req, res) => {
   const { id } = req.params;
   userModel
-    .findById(id, { ...excludedFields })
+    .findById(id, excludedFields)
     .then(user =>
       res.status(SUCCESS.ok.code).json(user))
     .catch(e =>
@@ -24,7 +24,7 @@ const getUserById = (req, res) => {
 
 const getUsers = (req, res) => {
   userModel
-    .find(null, { ...excludedFields })
+    .find(null, excludedFields)
     .then(users =>
       res.status(SUCCESS.ok.code).json(users))
     .catch(e =>
@@ -35,7 +35,7 @@ const getUsers = (req, res) => {
 const deleteUserById = (req, res) => {
   const { id } = req.params;
   userModel
-    .findByIdAndDelete(id, { ...excludedFields })
+    .findByIdAndDelete(id, excludedFields)
     .then(user => {
       if (user) return res.status(SUCCESS.ok.code)
         .json(SUCCESS.ok);
