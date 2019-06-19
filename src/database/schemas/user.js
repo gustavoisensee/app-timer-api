@@ -1,6 +1,7 @@
 const mongoose = require('../index');
 
-const userSchema = new mongoose.Schema({  
+const userSchema = new mongoose.Schema({
+  _id: String,
   name: String,
   email: String,
   password: String,
