@@ -1,3 +1,4 @@
+const mongoose = require('../database');
 const monthModel = require('../database/models/month');
 const catchHandling = require('../helpers/catchHandling');
 
@@ -9,17 +10,28 @@ const excludedFields = {
   __v: 0
 };
 
-const createMonthsByUserId = (req, res) => {
+const createMonthsByUserId = async(req, res) => {
   const { userId } = req.params;
   const { data } = req.body;
-  const _data = data && data.map(d => ({ userId, ...d }));
+  const _data = (data && data.map(d => ({ userId, ...d }))) || [];
     
-  monthModel
-    .insertMany(_data)
-    .then((result) => {
-      res.status(SUCCESS.ok.code).json(result);
-    })
-    .catch(e => catchHandling(e, res));
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    // delete old months
+    const ids = _data.filter(f => !!f._id).map(m => m._id);
+    await monthModel.deleteMany({ _id: { $in: ids } });
+
+    // save new months
+    const result = await monthModel.insertMany(_data);
+    await session.commitTransaction();
+    
+    res.status(SUCCESS.ok.code).json(result);
+
+  } catch (err) {
+    await session.abortTransaction();
+    catchHandling(err, res);
+  }
 };
 
 const getMonthsByUserId = (req, res) => {
