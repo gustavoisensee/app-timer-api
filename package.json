@@ -2,13 +2,14 @@
   "name": "my-finances-api",
   "version": "1.0.0",
   "description": "This is the REST api which is responsible to provide data to my-finances app.",
-  "main": "functions/server.js",
+  "main": "build/index.js",
   "author": "Gustavo Isensee",
   "license": "MIT",
   "scripts": {
-    "build": "netlify-lambda build express",
-    "start": "node index.server.js",
-    "start:dev": "nodem index.js",
+    "build": "babel index.js --out-dir build",
+    "start": "nodemon --exec babel-node index.js",
+
+    "start:dev": "babel-node index.js",
     "lint:js": "eslint index.js",
     "test": "jest"
   },
@@ -27,6 +28,11 @@
     "serverless-http": "^2.0.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
     "aws-sdk": "^2.502.0",
     "eslint": "^5.16.0",
     "eslint-plugin-jest": "^22.4.1",
