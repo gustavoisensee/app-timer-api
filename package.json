@@ -2,11 +2,11 @@
   "name": "my-finances-api",
   "version": "1.0.0",
   "description": "This is the REST api which is responsible to provide data to my-finances app.",
-  "main": "index.js",
+  "main": "functions/server.js",
   "author": "Gustavo Isensee",
   "license": "MIT",
   "scripts": {
-    "build": "netlify-lambda build index.js",
+    "build": "netlify-lambda build express",
     "start": "node index.js",
     "start:dev": "nodemon index.js",
     "lint:js": "eslint index.js",
@@ -27,6 +27,7 @@
     "serverless-http": "^2.0.2"
   },
   "devDependencies": {
+    "aws-sdk": "^2.502.0",
     "eslint": "^5.16.0",
     "eslint-plugin-jest": "^22.4.1",
     "jest": "^24.7.1",
