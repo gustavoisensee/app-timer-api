@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "netlify-lambda build express",
-    "start": "node index.js",
-    "start:dev": "nodemon index.js",
+    "start": "node index.server.js",
+    "start:dev": "nodem index.js",
     "lint:js": "eslint index.js",
     "test": "jest"
   },
