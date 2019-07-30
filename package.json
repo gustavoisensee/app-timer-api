@@ -6,6 +6,7 @@
   "author": "Gustavo Isensee",
   "license": "MIT",
   "scripts": {
+    "build": "netlify-lambda build express",
     "start": "node index.js",
     "start:dev": "nodemon index.js",
     "lint:js": "eslint index.js",
@@ -28,6 +29,7 @@
     "eslint": "^5.16.0",
     "eslint-plugin-jest": "^22.4.1",
     "jest": "^24.7.1",
+    "netlify-lambda": "^1.5.1",
     "nodemon": "^1.18.4"
   }
 }
