@@ -6,7 +6,7 @@
   "author": "Gustavo Isensee",
   "license": "MIT",
   "scripts": {
-    "build": "netlify-lambda build express",
+    "build": "netlify-lambda build index.js",
     "start": "node index.js",
     "start:dev": "nodemon index.js",
     "lint:js": "eslint index.js",
