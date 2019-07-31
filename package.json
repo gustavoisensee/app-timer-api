@@ -7,7 +7,7 @@
   "main": "functions/server.js",
   "scripts": {
     "build": "netlify-lambda build express",
-    "start": "node index.server.js",
+    "start": "node index.js",
     "lint:js": "eslint index.js",
     "test": "jest"
   },

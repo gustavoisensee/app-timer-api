@@ -1,18 +1,8 @@
-const express = require('express');
+require('dotenv').config();
 const serverless = require('serverless-http');
-const app = express();
-const bodyParser = require('body-parser');
-const router = express.Router();
+const { app, router } = require('./../src/app.js');
 
-router.get('/', (req, res) => {
-  res.send('<h1>Hello from Express.js!</h1>');
-});
-router.get('*', (req, res) => {
-  res.send('<h1>The route does not exist!</h1>');
-});
-
-app.use(bodyParser.json());
 app.use('/.netlify/functions/server', router);
 
-module.exports = app;
+module.exports.app = app;
 module.exports.handler = serverless(app);
