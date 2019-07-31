@@ -12,7 +12,8 @@ router.get('*', (req, res) => {
 });
 
 app.use(bodyParser.json());
-app.use('/.netlify/functions/server', router);
+// app.use('/.netlify/functions/server', router);
+app.use('/api', router);
 
 module.exports = app;
 module.exports.handler = serverless(app);
