@@ -23,18 +23,14 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.3.4",
     "netlify-lambda": "^1.5.1",
-    "nodemailer": "^4.6.8",
-    "serverless-http": "^2.0.2"
+    "nodemailer": "^4.6.8"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.5.5",
+    "aws-sdk": "^2.503.0",
     "eslint": "^5.16.0",
     "eslint-plugin-jest": "^22.4.1",
     "jest": "^24.7.1",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "serverless-http": "^2.0.2"
   }
 }
