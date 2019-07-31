@@ -2,17 +2,17 @@ const express = require('express');
 const serverless = require('serverless-http');
 const app = express();
 const bodyParser = require('body-parser');
+const router = express.Router();
 
-app.get('/', (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.write('<h1>Hello from Express.js!</h1>');
-  res.end();
+router.get('/', (req, res) => {
+  res.send('<h1>Hello from Express.js!</h1>');
 });
-app.get('/another', (req, res) => res.json({ route: req.originalUrl }));
-app.post('/', (req, res) => res.json({ postBody: req.body }));
+router.get('*', (req, res) => {
+  res.send('<h1>The route does not exist!</h1>');
+});
 
 app.use(bodyParser.json());
-app.use('/.netlify/functions/server', express.Router());  // path must route to lambda
+app.use('/', router);
 
 module.exports = app;
 module.exports.handler = serverless(app);
