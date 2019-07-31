@@ -10,7 +10,7 @@ mongoose.connect(
   }
 );
 
-connection.on('error', (err) => console.log('Mongo connection error: ', err));
-connection.once('open', () => console.log('Mongo connected'));
+connection.on('error', (err) => console.warn('Mongo connection error: ', err));
+connection.once('open', () => console.warn('Mongo connected'));
 
 module.exports = mongoose;
