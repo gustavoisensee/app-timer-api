@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node');
 const mongoose = require('mongoose');
 const { db } = require('../config');
 const { connection } = mongoose;
@@ -10,7 +11,11 @@ mongoose.connect(
   }
 );
 
-connection.on('error', (err) => console.warn('Mongo connection error: ', err));
+connection.on('error', (err) => {
+  Sentry.captureMessage('Mongo DB connection error');
+  Sentry.captureException(err);
+  console.warn('Mongo connection error: ', err);
+});
 connection.once('open', () => console.warn('Mongo connected'));
 
 module.exports = mongoose;

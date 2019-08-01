@@ -5,7 +5,12 @@ const { app, router } = require('./../src/app.js');
 
 Sentry.init({ dsn: 'https://d17adabdd7354e03b8fffa1488e21a02@sentry.io/1518760' });
 
+app.use(function (err, req, res) {
+  Sentry.captureMessage('Express initialize error');
+  Sentry.captureException(err);
+  res.status(500).send('Something broke!');
+});
 app.use('/.netlify/functions/server', router);
 
-module.exports = app;
+module.exports.app = app;
 module.exports.handler = serverless(app);
