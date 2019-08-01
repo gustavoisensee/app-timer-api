@@ -7,11 +7,13 @@ const {
   CLIENT_ERROR
 } = require('../constants/httpStatus');
 const { jwt: jwtConfig } = require('../config');
-Sentry.captureMessage(JSON.stringify(jwtConfig));
-
+Sentry.captureMessage('step 1');
 const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
+Sentry.captureMessage('step 2');
 const { encrypt, compare } = require('../helpers/encryption');
+Sentry.captureMessage('step 3');
 const profile = require('../constants/profile');
+Sentry.captureMessage('step 4');
 
 const login = (req, res) => {
   const { email, password } = req.body;
