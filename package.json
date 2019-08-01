@@ -8,6 +8,7 @@
   "scripts": {
     "build": "netlify-lambda build express",
     "start": "node index.js",
+    "start:dev": "NODE_ENV=development node index.js",
     "lint:js": "eslint index.js",
     "test": "jest"
   },
