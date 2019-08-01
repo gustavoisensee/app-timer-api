@@ -10,6 +10,9 @@ app.use(function (err, req, res) {
   Sentry.captureException(err);
   res.status(500).send('Something broke!');
 });
+app.get('/test', (req, res) => {
+  res.send('Express is working!');
+});
 app.use('/.netlify/functions/server', router);
 
 module.exports.app = app;
