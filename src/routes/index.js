@@ -10,7 +10,7 @@ const router = express.Router();
 require('./account')(router);
 
 // Set up a verify bearer token
-// require('./verifyValidToken')(router);
+require('./verifyValidToken')(router);
 
 // Routes with authorization
 // require('./user')(router);
