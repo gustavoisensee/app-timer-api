@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
 }
- 
+
 const Sentry = require('@sentry/node');
 const serverless = require('serverless-http');
 const { app, router } = require('./../src/app.js');
@@ -17,7 +17,7 @@ app.use(function (err, req, res, next) {
     next();
   }
 });
-app.get('/test', (req, res) => {
+router.get('/test', (req, res) => {
   res.send('Express is working!');
 });
 app.use('/.netlify/functions/server', router);
