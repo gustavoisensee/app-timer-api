@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.send('This is fine!');
-});
+// This works
+// router.get('/', (req, res) => {
+//   res.send('This is fine!');
+// });
+
 // Routes without authorization
-// require('./account')(router);
+require('./account')(router);
 
 // Set up a verify bearer token
 // require('./verifyValidToken')(router);

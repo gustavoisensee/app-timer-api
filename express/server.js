@@ -3,10 +3,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const Sentry = require('@sentry/node');
+Sentry.init({ dsn: 'https://d17adabdd7354e03b8fffa1488e21a02@sentry.io/1518760' });
+
 const serverless = require('serverless-http');
 const { app, router } = require('./../src/app.js');
-
-Sentry.init({ dsn: 'https://d17adabdd7354e03b8fffa1488e21a02@sentry.io/1518760' });
 
 app.use(function (err, req, res, next) {
   if (err) {

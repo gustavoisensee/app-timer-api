@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node');
 const jwt = require('jsonwebtoken');
 const catchHandling = require('../helpers/catchHandling');
 const userModel = require('../database/models/user');
@@ -6,6 +7,8 @@ const {
   CLIENT_ERROR
 } = require('../constants/httpStatus');
 const { jwt: jwtConfig } = require('../config');
+Sentry.captureMessage(JSON.stringify(jwtConfig));
+
 const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
 const { encrypt, compare } = require('../helpers/encryption');
 const profile = require('../constants/profile');
