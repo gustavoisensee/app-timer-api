@@ -7,5 +7,5 @@ Sentry.init({ dsn: 'https://d17adabdd7354e03b8fffa1488e21a02@sentry.io/1518760' 
 
 app.use('/.netlify/functions/server', router);
 
-module.exports.app = app;
+module.exports = app;
 module.exports.handler = serverless(app);
