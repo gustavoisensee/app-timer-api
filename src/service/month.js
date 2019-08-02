@@ -1,6 +1,6 @@
 const mongoose = require('../database');
 const monthModel = require('../database/models/month');
-const catchHandling = require('../helpers/catchHandling');
+const errorHandler = require('../helpers/errorHandler');
 
 const {
   SUCCESS,
@@ -30,7 +30,7 @@ const createMonthsByUserId = async(req, res) => {
 
   } catch (err) {
     await session.abortTransaction();
-    catchHandling(err, res);
+    errorHandler(err, res);
   }
 };
 
@@ -38,11 +38,8 @@ const getMonthsByUserId = (req, res) => {
   const { userId } = req.params;
   monthModel
     .find({ userId }, excludedFields)
-    .then(months =>
-      res.status(SUCCESS.ok.code).json(months))
-    .catch(e =>
-      catchHandling(e, res)
-    );
+    .then(months => res.status(SUCCESS.ok.code).json(months))
+    .catch(err => errorHandler(err, res));
 };
 
 module.exports = {

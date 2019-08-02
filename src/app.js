@@ -13,7 +13,4 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(router);
 
-// test
-// app.use(bodyParser.json());
-
 module.exports = { app, router };

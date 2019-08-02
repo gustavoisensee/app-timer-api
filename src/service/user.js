@@ -1,5 +1,5 @@
 const userModel = require('../database/models/user');
-const catchHandling = require('../helpers/catchHandling');
+const errorHandler = require('../helpers/errorHandler');
 
 const {
   SUCCESS,
@@ -15,21 +15,15 @@ const getUserById = (req, res) => {
   const { id } = req.params;
   userModel
     .findById(id, excludedFields)
-    .then(user =>
-      res.status(SUCCESS.ok.code).json(user))
-    .catch(e =>
-      catchHandling(e, res)
-    );
+    .then(user => res.status(SUCCESS.ok.code).json(user))
+    .catch(err => errorHandler(err, res));
 };
 
 const getUsers = (req, res) => {
   userModel
     .find(null, excludedFields)
-    .then(users =>
-      res.status(SUCCESS.ok.code).json(users))
-    .catch(e =>
-      catchHandling(e, res)
-    );
+    .then(users => res.status(SUCCESS.ok.code).json(users))
+    .catch(err => errorHandler(err, res));
 };
 
 const deleteUserById = (req, res) => {
@@ -43,9 +37,7 @@ const deleteUserById = (req, res) => {
       return res.status(CLIENT_ERROR.badRequest.code)
         .json(CLIENT_ERROR.badRequest);
     })
-    .catch(e =>
-      catchHandling(e, res)
-    );
+    .catch(err => errorHandler(err, res));
 };
 
 module.exports = {

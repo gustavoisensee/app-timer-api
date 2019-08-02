@@ -1,19 +1,14 @@
-const Sentry = require('@sentry/node');
 const jwt = require('jsonwebtoken');
-const catchHandling = require('../helpers/catchHandling');
+const errorHandler = require('../helpers/errorHandler');
 const userModel = require('../database/models/user');
 const {
   SUCCESS,
   CLIENT_ERROR
 } = require('../constants/httpStatus');
 const { jwt: jwtConfig } = require('../config');
-Sentry.captureMessage('step 1');
 const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
-Sentry.captureMessage('step 2');
 const { encrypt, compare } = require('../helpers/encryption');
-Sentry.captureMessage('step 3');
 const profile = require('../constants/profile');
-Sentry.captureMessage('step 4');
 
 const login = (req, res) => {
   const { email, password } = req.body;
@@ -40,7 +35,7 @@ const login = (req, res) => {
         );
         res.status(SUCCESS.ok.code).json({ user: _user, token });
       })
-      .catch(e => catchHandling(e, res));
+      .catch(err => errorHandler(err, res));
   } else {
     res.status(CLIENT_ERROR.badRequest.code)
       .json(CLIENT_ERROR.badRequest);
@@ -71,9 +66,9 @@ const create = (req, res) => {
           const { password, __v, ...user } = _user._doc;
           res.status(SUCCESS.ok.code).json(user);
         })
-        .catch(e => catchHandling(e, res));
+        .catch(err => errorHandler(err, res));
     })
-    .catch(e => catchHandling(e, res));
+    .catch(err => errorHandler(err, res));
 };
 
 const requestResetPassword = (req, res) => {
@@ -98,7 +93,7 @@ const requestResetPassword = (req, res) => {
             .json({ success: false, error: emailNotFoundMessage });
         }
       })
-      .catch(e => catchHandling(e, res));
+      .catch(err => errorHandler(err, res));
   } else {
     res.status(CLIENT_ERROR.badRequest.code)
       .json({ success: false, error: emailNotFoundMessage });
@@ -151,7 +146,7 @@ const resetPassword = (req, res) => {
           .status(CLIENT_ERROR.badRequest.code)
           .json(messages.SOMETHING_WRONG);
       })
-      .catch(e => catchHandling(e, res));
+      .catch(err => errorHandler(err, res));
   });
 };
 

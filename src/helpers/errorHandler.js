@@ -1,14 +1,16 @@
+const { captureException } = require('./sentry');
 const {
   SERVER_ERROR
 } = require('../constants/httpStatus');
 
-const catchNotify = (error, res) => {
+const errorHandler = (err, res) => {
+  captureException(err);
   res
     .status(SERVER_ERROR.internalServerError.code)
     .json({
       ...SERVER_ERROR.internalServerError,
-      error
+      err
     });
 };
 
-module.exports = catchNotify;
+module.exports = errorHandler;

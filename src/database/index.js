@@ -1,5 +1,5 @@
-const Sentry = require('@sentry/node');
 const mongoose = require('mongoose');
+const { captureMessage, captureException } = require('../helpers/sentry');
 const { db } = require('../config');
 const { connection } = mongoose;
 
@@ -12,10 +12,13 @@ mongoose.connect(
 );
 
 connection.on('error', (err) => {
-  Sentry.captureMessage('Mongo DB connection error');
-  Sentry.captureException(err);
-  console.warn('Mongo connection error: ', err);
+  const msg = 'Mongo DB connection error';
+  captureMessage(msg);
+  captureException(err);
+  console.log(msg);
 });
-connection.once('open', () => console.warn('Mongo connected'));
+
+// eslint-disable-next-line
+connection.once('open', () => console.log('Mongo connected'));
 
 module.exports = mongoose;
