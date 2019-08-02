@@ -1,7 +1,8 @@
 // https://github.com/auth0/node-jsonwebtoken
 const config = {
   app: {
-    port: process.env.PORT
+    port: process.env.PORT,
+    cryptoSecret: process.env.CRYPTO_SECRET
   },
   jwt: {
     expiresToken: process.env.JWT_EXPIRES_TOKEN,

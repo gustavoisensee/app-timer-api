@@ -1,16 +1,15 @@
-// https://www.npmjs.com/package/bcrypt
-// const bcrypt = require('bcrypt');
-
-// the cost of processing the data.
-const saltRounds = 10;
+const crypto = require('crypto');
+const {
+  app: appConfig,
+} = require('../config');
 
 const encrypt = (plainText) => {
   try {
-    // const salt = bcrypt.genSaltSync(saltRounds);
-    // const hash = bcrypt.hashSync(plainText, salt);
+    const hash = crypto.createHmac('sha256', appConfig.cryptoSecret)
+      .update(plainText)
+      .digest('hex');
   
-    // return hash;
-    return plainText;
+    return hash;
   } catch (e) {
     return null;    
   }
@@ -18,8 +17,7 @@ const encrypt = (plainText) => {
 
 const compare = (plainText, hash) => {
   try {
-    // return bcrypt.compareSync(plainText, hash);
-    return plainText;
+    return encrypt(plainText) === hash;
   } catch (e) {
     return null;
   }
