@@ -1,11 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// This works
-// router.get('/', (req, res) => {
-//   res.send('This is fine!');
-// });
-
 // Routes without authorization
 require('./account')(router);
 
@@ -13,7 +8,7 @@ require('./account')(router);
 require('./verifyValidToken')(router);
 
 // Routes with authorization
-// require('./user')(router);
-// require('./month')(router);
+require('./user')(router);
+require('./month')(router);
 
 module.exports = router;
