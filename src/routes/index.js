@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Generic router to check the API status
-router.get('/status', (err, req, res) => {
-  if (err) return res.send('API is down!');
+router.get('/status', (req, res) => {
   res.send('API is running!');
 });
 
