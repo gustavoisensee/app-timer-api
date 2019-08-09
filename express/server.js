@@ -8,6 +8,7 @@ initSentry();
 const serverless = require('serverless-http');
 const { app, router } = require('./../src/app.js');
 
+app.get('/', (req, res) => res.redirect('/.netlify/functions/server'));
 app.use('/.netlify/functions/server', router);
 
 module.exports.app = app;
