@@ -12,7 +12,6 @@ const itemsSchema = new mongoose.Schema({
 });
 
 const monthSchema = new mongoose.Schema({
-  _id: String,
   userId: String,
   year: Number,
   month: String,
