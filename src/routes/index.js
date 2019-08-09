@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+router.get('/', (req, res) => res.redirect('/.netlify/functions/server'));
+
 // Generic router to check the API status
 router.get('/status', (err, req, res) => {
   if (err) return res.send('API is down!');
