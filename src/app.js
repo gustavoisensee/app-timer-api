@@ -8,11 +8,12 @@ const router = require('./routes');
 const app = express();
 // app.use(cors());
 app.use(cors({
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  origin: [
-    'https://my-finances-web.netlify.com',
-    'http://localhost:3000'
-  ]
+  // origin: [
+  //   'https://my-finances-web.netlify.com',
+  //   'http://localhost:3000'
+  // ]
+  // methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  preflightContinue: true
 }));
 app.use(helmet());
 app.use(compression());
