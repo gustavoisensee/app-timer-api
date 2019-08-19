@@ -6,13 +6,13 @@ const cors = require('cors');
 const router = require('./routes');
 
 const app = express();
-app.use(cors());
-// app.use(cors({
-//   origin: [
-//     'https://my-finances-web.netlify.com',
-//     'https://my-finances-web.herokuapp.com/'
-//   ]
-// }));
+// app.use(cors());
+app.use(cors({
+  origin: [
+    'https://my-finances-web.netlify.com',
+    'http://localhost:3000'
+  ]
+}));
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json({ limit: '50mb' }));
