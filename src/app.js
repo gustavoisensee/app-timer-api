@@ -8,6 +8,7 @@ const router = require('./routes');
 const app = express();
 // app.use(cors());
 app.use(cors({
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   origin: [
     'https://my-finances-web.netlify.com',
     'http://localhost:3000'
