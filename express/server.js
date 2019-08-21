@@ -21,7 +21,8 @@ module.exports.handler = async (event, context, callback) => {
   const headers = {
     ...result.headers,
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': true
+    'Access-Control-Allow-Credentials': true,
+    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET,PUT,DELETE'
   };
   
   const newResponse = {
