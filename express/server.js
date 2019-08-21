@@ -14,7 +14,7 @@ module.exports.app = app;
 // module.exports.handler = serverless(app);
 
 const handler = serverless(app);
-module.exports.handler = async (event, context) => {
+module.exports.handler = async (event, context, callback) => {
   // you can do other things here
   const result = await handler(event, context);
 
@@ -29,5 +29,5 @@ module.exports.handler = async (event, context) => {
     headers
   };
 
-  return newResponse;
+  return callback(null, newResponse);
 };
