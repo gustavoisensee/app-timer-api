@@ -16,7 +16,7 @@ module.exports.app = app;
 const handler = serverless(app);
 module.exports.handler = async (event, context, callback) => {
   // you can do other things here
-  const result = await handler(event, context);
+  const result = await handler(event, context, callback);
 
   const headers = {
     ...result.headers,
