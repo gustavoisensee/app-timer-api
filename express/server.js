@@ -30,5 +30,5 @@ module.exports.handler = async (event, context, callback) => {
     headers
   };
 
-  return callback(null, newResponse);
+  return newResponse;
 };
