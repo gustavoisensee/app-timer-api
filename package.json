@@ -6,15 +6,14 @@
   "license": "MIT",
   "main": "functions/server.js",
   "scripts": {
-    "build": "netlify-lambda build express",
-    "serve": "NODE_ENV=development netlify-lambda serve express",
-    "start": "node index.js",
-    "start:dev": "NODE_ENV=development node index.js",
-    "lint:js": "eslint index.js",
+    "build": "netlify-lambda build functions",
+    "start:dev": "NODE_ENV=development netlify-lambda serve functions",
+    "lint:js": "eslint src/",
     "test": "jest"
   },
   "dependencies": {
     "@sentry/node": "5.5.0",
+    "aws-serverless-express": "^3.3.6",
     "body-parser": "^1.19.0",
     "compression": "^1.7.3",
     "cors": "^2.8.5",
