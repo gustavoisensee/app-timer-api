@@ -6,5 +6,6 @@ const port = process.env.PORT || 3000;
 const app = require('./src/app.js');
 
 app.listen(port, () => {
+  // eslint-disable-next-line
   console.log(`Listening at http://localhost:${port}`);
 });

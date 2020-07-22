@@ -1,13 +1,14 @@
 const cors = require('cors');
 
 const whitelist = [
-  'https://my-finances-web.netlify.app',
-  'http://localhost:3000'
+  'https://my-finances-web.netlify.app'
 ];
+
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 const options = {
   origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || isDevelopment) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -17,6 +18,5 @@ const options = {
 };
 
 const customCors = () => cors(options);
-
 
 module.exports = customCors;
