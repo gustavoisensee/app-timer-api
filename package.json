@@ -4,6 +4,7 @@
   "description": "This is the REST api which is responsible to provide data to my-finances app.",
   "author": "Gustavo Isensee",
   "license": "MIT",
+  "main": "dist/api.js",
   "scripts": {
     "build:lambda": "netlify-lambda build functions",
     "start:lambda": "NODE_ENV=development netlify-lambda serve functions",
