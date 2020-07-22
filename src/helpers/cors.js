@@ -1,7 +1,8 @@
 const cors = require('cors');
 
 const whitelist = [
-  'https://my-finances-web.netlify.app'
+  'https://my-finances-web.netlify.app',
+  'https://my-finances-api.netlify.app'
 ];
 
 const isDevelopment = process.env.NODE_ENV === 'development';
