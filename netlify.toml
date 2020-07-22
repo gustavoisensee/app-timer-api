@@ -1,4 +1,3 @@
 [build]
   command = "yarn build:lambda"
-  functions = "functions"
-  publish = "dist"
+  functions = "dist"
