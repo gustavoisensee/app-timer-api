@@ -3,8 +3,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const serverless = require('serverless-http');
-const routes = require('../src/routes');
 const app = require('../src/app');
+const routes = require('../src/routes');
 
 app.use('/.netlify/functions/api', routes);
 

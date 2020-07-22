@@ -3,7 +3,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const port = process.env.PORT || 3000;
-const app = require('./src/app.js');
+const app = require('./src/app');
+const routes = require('./src/routes');
+
+app.use(routes);
 
 app.listen(port, () => {
   // eslint-disable-next-line

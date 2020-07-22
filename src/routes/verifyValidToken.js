@@ -10,12 +10,12 @@ const verifyValidToken = (router) => {
       if (!token) return res
         .status(CLIENT_ERROR.unauthorized.code)
         .json(CLIENT_ERROR.unauthorized);
-      
+
       jwt.verify(token, jwtConfig.secret, (err) => {
         if (err) return res
           .status(CLIENT_ERROR.unauthorized.code)
           .json(CLIENT_ERROR.unauthorized);
-        
+
         next();
       });
     });
