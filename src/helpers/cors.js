@@ -1,8 +1,7 @@
 const cors = require('cors');
 
 const whitelist = [
-  'https://my-finances-web.netlify.app',
-  'https://my-finances-api-v1.herokuapp.com'
+  'https://my-finances-web.netlify.app'
 ];
 
 const isDevelopment = process.env.NODE_ENV === 'development';
