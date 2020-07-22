@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
-const { captureMessage, captureException } = require('../helpers/sentry');
 const { db } = require('../config');
+const { captureMessage, captureException } = require('../helpers/sentry');
 const { connection } = mongoose;
 
 mongoose.Promise = Promise;
 mongoose.connect(
   db.path,
   {
-    dbName: db.name, useNewUrlParser: true
+    dbName: db.name,
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   }
 );
 
 connection.on('error', (err) => {
-  const msg = 'Mongo DB connection error';
-  captureMessage(msg);
+  captureMessage('Mongo DB connection error');
   captureException(err);
-  console.log(msg);
 });
 
 // eslint-disable-next-line
