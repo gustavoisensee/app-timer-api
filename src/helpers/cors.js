@@ -8,7 +8,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 const options = {
   origin: (origin, callback) => {
-    console.warn('ORIGIN: ', origin);
+    if (!origin) this.call(null, true);
     if (whitelist.indexOf(origin) !== -1 || isDevelopment) {
       callback(null, true);
     } else {
