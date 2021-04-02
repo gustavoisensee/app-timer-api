@@ -1,14 +1,8 @@
-const cors = require('cors');
-
 const options = {
   origin: [
     'https://my-finances-web.netlify.app'
   ],
-  methods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
-  preflightContinue: true,
-  optionsSuccessStatus: 200
+  methods: ['GET', 'PUT', 'POST', 'DELETE']
 };
 
-const customCors = () => cors(options);
-
-module.exports = customCors;
+module.exports = options;
