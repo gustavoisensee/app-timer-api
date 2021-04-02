@@ -5,7 +5,8 @@ const options = {
     'https://my-finances-web.netlify.app'
   ],
   methods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
-  credentials: true
+  preflightContinue: true,
+  optionsSuccessStatus: 200
 };
 
 const customCors = () => cors(options);
