@@ -4,7 +4,7 @@ const options = {
   origin: [
     'https://my-finances-web.netlify.app'
   ],
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  methods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
   credentials: true
 };
 
