@@ -7,7 +7,6 @@ const corsOptions = require('./helpers/cors');
 
 const app = express();
 
-// app.options('*', cors())
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(compression());
