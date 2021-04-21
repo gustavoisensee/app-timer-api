@@ -11,7 +11,7 @@ initSentry();
 
 app.use(Sentry.Handlers.requestHandler());
 app.use(routes);
-app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 try {
   app.listen(port, () => {
