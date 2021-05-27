@@ -4,3 +4,4 @@ npm-debug.*
 .env
 build/
 dist/
+src/config/env.ts

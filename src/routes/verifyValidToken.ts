@@ -1,9 +1,10 @@
-const jwt = require('jsonwebtoken');
-const { jwt: jwtConfig } = require('../config');
-const getToken = require('../helpers/getToken');
-const { CLIENT_ERROR } = require('../constants/httpStatus');
+import { Router } from 'express';
+import jwt from 'jsonwebtoken';
+import config from '../config';
+import getToken from '../helpers/getToken';
+import { CLIENT_ERROR } from '../constants/httpStatus';
 
-const verifyValidToken = (router) => {
+const init = (router: Router) => {
   router
     .get('*', (req, res, next) => {
       const token = getToken(req);
@@ -11,7 +12,7 @@ const verifyValidToken = (router) => {
         .status(CLIENT_ERROR.unauthorized.code)
         .json(CLIENT_ERROR.unauthorized);
 
-      jwt.verify(token, jwtConfig.secret, (err) => {
+      jwt.verify(token, config.jwt.secret, (err) => {
         if (err) return res
           .status(CLIENT_ERROR.unauthorized.code)
           .json(CLIENT_ERROR.unauthorized);
@@ -21,4 +22,4 @@ const verifyValidToken = (router) => {
     });
 };
 
-module.exports = verifyValidToken;
+export default init;

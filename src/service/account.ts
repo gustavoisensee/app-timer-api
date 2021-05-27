@@ -1,16 +1,13 @@
-const jwt = require('jsonwebtoken');
-const errorHandler = require('../helpers/errorHandler');
-const userModel = require('../database/models/user');
-const {
-  SUCCESS,
-  CLIENT_ERROR
-} = require('../constants/httpStatus');
-const { jwt: jwtConfig } = require('../config');
-const { sendEmail, getRequestResetPasswordOptions } = require('../helpers/email');
-const { encrypt, compare } = require('../helpers/encryption');
-const profile = require('../constants/profile');
+import jwt from 'jsonwebtoken';
+import errorHandler from '../helpers/errorHandler';
+import userModel from '../database/models/user';
+import { SUCCESS, CLIENT_ERROR } from '../constants/httpStatus';
+import config from '../config';
+import { sendEmail, getRequestResetPasswordOptions } from '../helpers/email';
+import { encrypt, compare } from '../helpers/encryption';
+import profile from '../constants/profile';
 
-const login = (req, res) => {
+export const login = (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
     userModel
@@ -30,8 +27,8 @@ const login = (req, res) => {
         };
         const token = jwt.sign(
           _user,
-          jwtConfig.secret,
-          { expiresIn: jwtConfig.expiresToken }
+          config.jwt.secret,
+          { expiresIn: config.jwt.expiresToken }
         );
         res.status(SUCCESS.ok.code).json({ user: _user, token });
       })
@@ -42,7 +39,7 @@ const login = (req, res) => {
   }
 };
 
-const create = (req, res) => {
+export const create = (req, res) => {
   const { name, email, password: _password } = req.body;
   userModel
     .find({ email })
@@ -71,7 +68,7 @@ const create = (req, res) => {
     .catch(err => errorHandler(err, res));
 };
 
-const requestResetPassword = (req, res) => {
+export const requestResetPassword = (req, res) => {
   const { email } = req.body;
   // TODO: It needs translation #13
   const emailNotFoundMessage = 'Email has been not found.';
@@ -82,8 +79,8 @@ const requestResetPassword = (req, res) => {
         if (user) {
           const token = jwt.sign(
             { email, userId: user._id },
-            jwtConfig.secret,
-            { expiresIn: jwtConfig.expiresToken }
+            config.jwt.secret,
+            { expiresIn: config.jwt.expiresToken }
           );
           const options = getRequestResetPasswordOptions(email, token);
 
@@ -100,7 +97,7 @@ const requestResetPassword = (req, res) => {
   }
 };
 
-const resetPassword = (req, res) => {
+export const resetPassword = (req, res) => {
   const { password: _password, token } = req.body;
   // TODO: It needs translation #13
   const messages = {
@@ -115,7 +112,7 @@ const resetPassword = (req, res) => {
     .status(CLIENT_ERROR.unauthorized.code)
     .json(CLIENT_ERROR.unauthorized);
 
-  jwt.verify(token, jwtConfig.secret, (err, decoded) => {
+  jwt.verify(token, config.jwt.secret, (err, decoded) => {
     if (err) return res
       .status(CLIENT_ERROR.unauthorized.code)
       .json(CLIENT_ERROR.unauthorized);
@@ -148,11 +145,4 @@ const resetPassword = (req, res) => {
       })
       .catch(err => errorHandler(err, res));
   });
-};
-
-module.exports = {
-  login,
-  create,
-  requestResetPassword,
-  resetPassword
 };

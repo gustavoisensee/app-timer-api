@@ -1,4 +1,4 @@
-const mongoose = require('../index');
+import mongoose from '../index';
 
 const subItemsSchema = new mongoose.Schema({  
   description: String,
@@ -11,12 +11,10 @@ const itemsSchema = new mongoose.Schema({
   subItems: [subItemsSchema]
 });
 
-const monthSchema = new mongoose.Schema({
+export default new mongoose.Schema({
   userId: String,
   year: Number,
   month: String,
   income: Number,
   items: [itemsSchema]
 });
-
-module.exports = monthSchema;

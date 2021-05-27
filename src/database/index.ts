@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
-const { db } = require('../config');
-const { captureMessage, captureException } = require('../helpers/sentry');
+import mongoose from 'mongoose';
+import config from '../config';
+import { captureMessage, captureException } from '../helpers/sentry';
+
 const { connection } = mongoose;
 
 mongoose.Promise = Promise;
 mongoose.connect(
-  db.path,
+  config.db.path,
   {
-    dbName: db.name,
+    dbName: config.db.name,
     useNewUrlParser: true,
     useUnifiedTopology: true
   }
@@ -18,7 +19,6 @@ connection.on('error', (err) => {
   captureException(err);
 });
 
-// eslint-disable-next-line
 connection.once('open', () => console.log('Mongo connected'));
 
-module.exports = mongoose;
+export default mongoose;

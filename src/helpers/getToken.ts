@@ -1,4 +1,6 @@
-const getToken = (req) => {
+import { Request } from 'express';
+
+const getToken = (req: Request) => {
   const authorization = (req && req.headers && req.headers.authorization) || '';
   const authorizationSplit = authorization.split(' ');
   
@@ -9,4 +11,4 @@ const getToken = (req) => {
   return null;
 };
 
-module.exports = getToken;
+export default getToken;

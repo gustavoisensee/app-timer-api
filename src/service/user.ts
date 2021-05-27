@@ -1,17 +1,15 @@
-const userModel = require('../database/models/user');
-const errorHandler = require('../helpers/errorHandler');
+import { Request, Response } from 'express';
+import { QueryOptions } from 'mongoose';
+import userModel from '../database/models/user';
+import errorHandler from '../helpers/errorHandler';
+import { SUCCESS, CLIENT_ERROR } from '../constants/httpStatus';
 
-const {
-  SUCCESS,
-  CLIENT_ERROR
-} = require('../constants/httpStatus');
-
-const excludedFields = {
+const excludedFields = <QueryOptions> {
   password: 0,
   __v: 0
 };
 
-const getUserById = (req, res) => {
+export const getUserById = (req: Request, res: Response) => {
   const { id } = req.params;
   userModel
     .findById(id, excludedFields)
@@ -19,14 +17,14 @@ const getUserById = (req, res) => {
     .catch(err => errorHandler(err, res));
 };
 
-const getUsers = (req, res) => {
+export const getUsers = (req: Request, res: Response) => {
   userModel
     .find(null, excludedFields)
     .then(users => res.status(SUCCESS.ok.code).json(users))
     .catch(err => errorHandler(err, res));
 };
 
-const deleteUserById = (req, res) => {
+export const deleteUserById = (req: Request, res: Response) => {
   const { id } = req.params;
   userModel
     .findByIdAndDelete(id, excludedFields)
@@ -38,10 +36,4 @@ const deleteUserById = (req, res) => {
         .json(CLIENT_ERROR.badRequest);
     })
     .catch(err => errorHandler(err, res));
-};
-
-module.exports = {
-  getUserById,
-  getUsers,
-  deleteUserById
 };

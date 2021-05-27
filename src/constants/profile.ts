@@ -3,4 +3,4 @@ const profile = {
   USER: 2
 };
 
-module.exports = profile;
+export default profile;

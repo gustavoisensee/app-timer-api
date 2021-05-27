@@ -13,4 +13,4 @@ const options = {
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTIONS']
 };
 
-module.exports = options;
+export default options

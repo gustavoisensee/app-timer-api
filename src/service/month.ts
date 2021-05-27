@@ -1,16 +1,13 @@
-const mongoose = require('../database');
-const monthModel = require('../database/models/month');
-const errorHandler = require('../helpers/errorHandler');
-
-const {
-  SUCCESS,
-} = require('../constants/httpStatus');
+import mongoose from '../database';
+import monthModel from '../database/models/month';
+import errorHandler from '../helpers/errorHandler';
+import { SUCCESS } from '../constants/httpStatus';
 
 const excludedFields = {
   __v: 0
 };
 
-const saveMonthsByUserId = async(req, res) => {
+export const saveMonthsByUserId = async(req, res) => {
   const { userId } = req.params;
   const { data } = req.body;
   const _data = (data && data.map(d => ({ userId, ...d }))) || [];
@@ -35,15 +32,10 @@ const saveMonthsByUserId = async(req, res) => {
   }
 };
 
-const getMonthsByUserId = (req, res) => {
+export const getMonthsByUserId = (req, res) => {
   const { userId } = req.params;
   monthModel
     .find({ userId }, excludedFields)
     .then(months => res.status(SUCCESS.ok.code).json(months))
     .catch(err => errorHandler(err, res));
-};
-
-module.exports = {
-  saveMonthsByUserId,
-  getMonthsByUserId
 };
