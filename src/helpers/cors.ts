@@ -6,9 +6,8 @@ const isDev = process.env.NODE_ENV === 'development';
 const options = {
   origin: (origin, callback) => {
     const isWhitelisted = whitelist.indexOf(origin) >= 0;
-    const isStatusCheck = origin && origin.indexOf('status') >= 0;
-
-    if (isWhitelisted || isStatusCheck || isDev) {
+    
+    if (isWhitelisted || isDev) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'))
