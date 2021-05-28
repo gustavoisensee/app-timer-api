@@ -1,5 +1,8 @@
 // Add 'http://localhost:3000' to test production mode locally
-const whitelist = ['https://my-finances-web.netlify.app'];
+const whitelist = [
+  'https://my-finances-api-v1.herokuapp.com',
+  'https://my-finances-web.netlify.app'
+];
 
 const isDev = process.env.NODE_ENV === 'development';
 
