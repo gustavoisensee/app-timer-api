@@ -1,14 +1,14 @@
 // Add 'http://localhost:3000' to test production mode locally
-const whitelist = [
-  'https://my-finances-api-v1.herokuapp.com',
-  'https://my-finances-web.netlify.app'
-];
+const whitelist = ['https://my-finances-web.netlify.app'];
 
 const isDev = process.env.NODE_ENV === 'development';
 
 const options = {
   origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1 || isDev) {
+    const isWhitelisted = whitelist.indexOf(origin) !== -1;
+    const isStatusCheck = whitelist.indexOf('status') !== -1;
+    
+    if (isWhitelisted || isStatusCheck || isDev) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'))
