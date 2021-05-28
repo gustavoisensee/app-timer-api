@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "sucrase ./src -d ./dist --transforms typescript,imports",
+    "build": "NODE_ENV=production sucrase ./src -d ./dist --transforms typescript,imports",
     "start": "nodemon dist/index.js",
     "lint": "eslint src/",
     "test": "jest",
