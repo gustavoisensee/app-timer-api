@@ -15,7 +15,7 @@ router.get('/status', (req, res) => {
 initAccountRouter(router);
 
 // Set up a verify bearer token
-// initVerifyValidToken(router);
+initVerifyValidToken(router);
 
 // Routes with authorization
 initMonthRouter(router);
