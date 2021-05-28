@@ -5,9 +5,9 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const options = {
   origin: (origin, callback) => {
-    const isWhitelisted = whitelist.indexOf(origin) !== -1;
-    const isStatusCheck = whitelist.indexOf('status') !== -1;
-    
+    const isWhitelisted = whitelist.indexOf(origin) >= 0;
+    const isStatusCheck = origin && origin.indexOf('status') >= 0;
+
     if (isWhitelisted || isStatusCheck || isDev) {
       callback(null, true);
     } else {
