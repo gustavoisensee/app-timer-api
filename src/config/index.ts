@@ -1,4 +1,6 @@
-import localEnv from './env';
+const isDev = process.env.NODE_ENV === 'development';
+const localEnv = isDev ? require('./env').default : null;
+
 
 const config = {
   app: {
