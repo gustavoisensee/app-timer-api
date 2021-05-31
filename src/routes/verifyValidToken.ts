@@ -4,18 +4,22 @@ import config from '../config';
 import getToken from '../helpers/getToken';
 import { CLIENT_ERROR } from '../constants/httpStatus';
 
-const init = (router: Router) => {
+const init = (router: Router): void => {
   router
     .get('*', (req, res, next) => {
       const token = getToken(req);
-      if (!token) return res
-        .status(CLIENT_ERROR.unauthorized.code)
-        .json(CLIENT_ERROR.unauthorized);
-
-      jwt.verify(token, config.jwt.secret, (err) => {
-        if (err) return res
+      if (!token) {
+        return res
           .status(CLIENT_ERROR.unauthorized.code)
           .json(CLIENT_ERROR.unauthorized);
+      }
+
+      jwt.verify(token, config.jwt.secret, (err) => {
+        if (err) {
+          return res
+            .status(CLIENT_ERROR.unauthorized.code)
+            .json(CLIENT_ERROR.unauthorized);
+        }
 
         next();
       });

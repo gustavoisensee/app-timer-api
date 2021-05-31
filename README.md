@@ -18,7 +18,8 @@ export default {
   EMAIL_SECURE: true,
   EMAIL_USER: 'user@mail.com',
   EMAIL_PASSWORD: 'password',
-  EMAIL_PATH_RESET_PASSWORD: 'http://localhot:3001/account/reset-password'
+  EMAIL_PATH_RESET_PASSWORD: 'http://localhot:3001/account/reset-password',
+  SENTRY_DSN: 'https://example@123.ingest.sentry.io/id-project'
 };
 ```
 

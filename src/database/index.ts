@@ -19,6 +19,9 @@ connection.on('error', (err) => {
   captureException(err);
 });
 
-connection.once('open', () => console.log('Mongo connected'));
+connection.once('open', () => {
+  // eslint-disable-next-line
+  console.log('Mongo connected');
+});
 
 export default mongoose;

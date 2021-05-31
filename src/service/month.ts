@@ -2,12 +2,13 @@ import mongoose from '../database';
 import monthModel from '../database/models/month';
 import errorHandler from '../helpers/errorHandler';
 import { SUCCESS } from '../constants/httpStatus';
+import { RequestResponse } from './types';
 
 const excludedFields = {
   __v: 0
 };
 
-export const saveMonthsByUserId = async(req, res) => {
+export const saveMonthsByUserId: RequestResponse = async (req, res) => {
   const { userId } = req.params;
   const { data } = req.body;
   const _data = (data && data.map(d => ({ userId, ...d }))) || [];
@@ -25,14 +26,13 @@ export const saveMonthsByUserId = async(req, res) => {
     await session.commitTransaction();
 
     res.status(SUCCESS.ok.code).json(result);
-
   } catch (err) {
     await session.abortTransaction();
     errorHandler(err, res);
   }
 };
 
-export const getMonthsByUserId = (req, res) => {
+export const getMonthsByUserId: RequestResponse = (req, res) => {
   const { userId } = req.params;
   monthModel
     .find({ userId }, excludedFields)

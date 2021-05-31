@@ -6,7 +6,7 @@ import {
   resetPassword
 } from '../service/account';
 
-const init = (router: Router) => {
+const init = (router: Router): void => {
   router
     .post('/account/login', login)
     .post('/account/create', create)

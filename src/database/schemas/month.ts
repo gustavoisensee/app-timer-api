@@ -1,11 +1,11 @@
 import mongoose from '../index';
 
-const subItemsSchema = new mongoose.Schema({  
+const subItemsSchema = new mongoose.Schema({
   description: String,
   value: Number
 });
 
-const itemsSchema = new mongoose.Schema({  
+const itemsSchema = new mongoose.Schema({
   name: String,
   total: Number,
   subItems: [subItemsSchema]

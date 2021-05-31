@@ -1,3 +1,4 @@
+import { Response } from 'express';
 import nodeMailer from 'nodemailer';
 import config from '../config';
 import { CLIENT_ERROR, SUCCESS } from '../constants/httpStatus';
@@ -5,17 +6,17 @@ import { CLIENT_ERROR, SUCCESS } from '../constants/httpStatus';
 const createTransport = () => nodeMailer.createTransport({
   host: config.email.host,
   port: config.email.port,
-  secure: config.email.secure,  //true for 465 port, false for other ports
+  secure: config.email.secure, // true for 465 port, false for other ports
   auth: {
     user: config.email.auth.user,
     pass: config.email.auth.password
   }
 });
 
-export const sendEmail = (res, options) => {
+export const sendEmail = (res: Response, options: nodeMailer.SendMailOptions): void => {
   try {
     const transporter = createTransport();
-    const mailOptions = {
+    const mailOptions: nodeMailer.SendMailOptions = {
       from: config.email.auth.user,
       ...options
     };
@@ -23,20 +24,19 @@ export const sendEmail = (res, options) => {
     transporter.sendMail(mailOptions, (error) => {
       if (error) {
         res.status(CLIENT_ERROR.badRequest.code)
-          .json({success: false, error});
+          .json({ success: false, error });
       } else {
         res.status(SUCCESS.ok.code)
-          .json({success: true});
+          .json({ success: true });
       }
     });
-
   } catch (error) {
     res.status(CLIENT_ERROR.badRequest.code)
-      .json({success: false, error}); 
+      .json({ success: false, error });
   }
 };
 
-export const getRequestResetPasswordOptions = (email, token) => ({
+export const getRequestResetPasswordOptions = (email: string, token: string): nodeMailer.SendMailOptions => ({
   to: email,
   // TODO: It needs translation #13
   subject: 'My Finances - Reset password',

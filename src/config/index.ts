@@ -1,11 +1,12 @@
 const isDev = process.env.NODE_ENV === 'development';
+// eslint-disable-next-line
 const localEnv = isDev ? require('./env').default : null;
-
 
 const config = {
   app: {
     port: process.env.PORT || localEnv.PORT,
-    cryptoSecret: process.env.CRYPTO_SECRET || localEnv.CRYPTO_SECRET
+    cryptoSecret: process.env.CRYPTO_SECRET || localEnv.CRYPTO_SECRET,
+    sentryDsn: process.env.SENTRY_DSN || localEnv.sentryDsn
   },
   jwt: {
     expiresToken: process.env.JWT_EXPIRES_TOKEN || localEnv.JWT_EXPIRES_TOKEN,

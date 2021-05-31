@@ -1,6 +1,6 @@
 const HttpObject = (code: number, message: string) => ({ code, message });
 
-export const  INFORMATIONAL = {
+export const INFORMATIONAL = {
   continue: HttpObject(100, 'The data is being processed.')
 };
 
