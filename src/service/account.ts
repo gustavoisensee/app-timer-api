@@ -6,10 +6,13 @@ import config from '../config';
 import { sendEmail, getRequestResetPasswordOptions } from '../helpers/email';
 import { encrypt, compare } from '../helpers/encryption';
 import profile from '../constants/profile';
-import { RequestResponse } from './types';
+import {
+  BodyCreateUser, BodyLogin, BodyRequestResetPassword,
+  BodyResetPassword, RequestResponse
+} from './types';
 
 export const login: RequestResponse = (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = <BodyLogin> req.body;
   if (email && password) {
     userModel
       .findOne({ email })
@@ -45,7 +48,7 @@ export const login: RequestResponse = (req, res) => {
 };
 
 export const create: RequestResponse = (req, res) => {
-  const { name, email, password: _password } = req.body;
+  const { name, email, password: _password } = <BodyCreateUser> req.body;
   userModel
     .find({ email })
     .then(result => {
@@ -76,7 +79,7 @@ export const create: RequestResponse = (req, res) => {
 };
 
 export const requestResetPassword: RequestResponse = (req, res) => {
-  const { email } = req.body;
+  const { email } = <BodyRequestResetPassword> req.body;
   // TODO: It needs translation #13
   const emailNotFoundMessage = 'Email has been not found.';
   if (email) {
@@ -105,7 +108,7 @@ export const requestResetPassword: RequestResponse = (req, res) => {
 };
 
 export const resetPassword: RequestResponse = (req, res) => {
-  const { password: _password, token } = req.body;
+  const { password: _password, token } = <BodyResetPassword> req.body;
   // TODO: It needs translation #13
   const messages = {
     INVALID_PASSWORD: { message: 'Password has not been sent.' },

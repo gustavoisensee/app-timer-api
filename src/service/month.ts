@@ -2,7 +2,7 @@ import mongoose from '../database';
 import monthModel from '../database/models/month';
 import errorHandler from '../helpers/errorHandler';
 import { SUCCESS } from '../constants/httpStatus';
-import { RequestResponse } from './types';
+import { BodyData, RequestResponse } from './types';
 
 const excludedFields = {
   __v: 0
@@ -10,7 +10,7 @@ const excludedFields = {
 
 export const saveMonthsByUserId: RequestResponse = async (req, res) => {
   const { userId } = req.params;
-  const { data } = req.body;
+  const { data } = <BodyData> req.body;
   const _data = (data && data.map(d => ({ userId, ...d }))) || [];
 
   const session = await mongoose.startSession();

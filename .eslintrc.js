@@ -21,22 +21,10 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'jest'],
   rules: {
-    indent: [
-      'error',
-      2
-    ],
-    'linebreak-style': [
-      'error',
-      'unix'
-    ],
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
     'no-console': 1,
-    quotes: [
-      'error',
-      'single'
-    ],
-    semi: [
-      'error',
-      'always'
-    ]
+    quotes: ['error', 'single'],
+    semi: ['error', 'always']
   }
 }

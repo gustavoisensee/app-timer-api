@@ -14,7 +14,7 @@ const init = (router: Router): void => {
           .json(CLIENT_ERROR.unauthorized);
       }
 
-      jwt.verify(token, config.jwt.secret, (err) => {
+      jwt.verify(token, config.jwt.secret, (err: Error) => {
         if (err) {
           return res
             .status(CLIENT_ERROR.unauthorized.code)
